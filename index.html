@@ -6,7 +6,7 @@
 <title>诡镜系列</title>
 <style>
 :root{--bg:#1a1a1e;--card:#2a2a2e;--fg:#e8e8e8;--fg2:#999;--fg3:#666;--ac:#3b82f6;--bd:#333}
-[data-theme=light]{--bg:#fef3e2;--card:#f5e6d0;--fg:#3a3226;--fg2:#6b6050;--fg3:#9b8070;--bd:#e0d5c0;--ac:#2563eb}
+[data-theme=light]{--bg:#f5f5f0;--card:#eeecec;--fg:#2c2c2c;--fg2:#666;--fg3:#999;--bd:#e0e0d8;--ac:#2563eb}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC",sans-serif;color:var(--fg);background:var(--bg);line-height:1.6;font-size:15px;min-height:100vh}
 .app{max-width:960px;margin:0 auto;min-height:100vh}
@@ -51,67 +51,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto
 .rnav button{flex:1;background:var(--ac);color:#fff;border:none;padding:12px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer}
 .rnav button:disabled{background:var(--card);color:var(--fg3);cursor:default}
 .more{color:var(--ac);font-size:12px;cursor:pointer}
-.rtools{display:flex;align-items:center;gap:6px;padding:8px calc((100vw - min(95vw,1100px))/2);background:var(--card);border-bottom:1px solid var(--bd);font-size:12px;color:var(--fg2);flex-wrap:wrap}
-.rtools button{background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 8px;cursor:pointer;font-size:12px}
-.rtools button.on{background:var(--ac);color:#fff}
-.ttsbar{display:none;align-items:center;gap:8px;padding:8px calc((100vw - min(95vw,1100px))/2);background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:97px;z-index:8;font-size:12px;color:var(--fg2)}
-.ttsbar.show{display:flex}
-.ttsbar button{background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 10px;cursor:pointer;font-size:13px}
-.ttsbar button:hover{background:var(--ac);color:#fff}
-.ttsbar select{background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:12px}
-
-.rtools button.on{background:var(--ac);color:#fff}
-.ttsbar{display:none;align-items:center;gap:8px;padding:8px calc((100vw - min(95vw,1100px))/2);background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:97px;z-index:8;font-size:12px;color:var(--fg2)}
-.ttsbar.show{display:flex}
-.ttsbar button{background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 10px;cursor:pointer;font-size:13px}
-.ttsbar button:hover{background:var(--ac);color:#fff}
-.ttsbar select{background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:12px}
-
-.rtools button:hover{background:var(--ac);color:#fff}
-.rtools .sep{width:1px;height:16px;background:var(--bd)}
-
-.aplayer{padding:12px calc((100vw - min(95vw,1100px))/2);background:var(--card);border-bottom:1px solid var(--bd);margin-bottom:16px;border-radius:0 0 8px 8px}
-.aplayer audio{width:100%;height:40px;border-radius:20px;outline:none}
-.aplayer .alabel{font-size:12px;color:var(--fg2);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.cmsec{padding:16px calc((100vw - min(95vw,1100px))/2);border-top:1px solid var(--bd);background:var(--bg)}
-.cmhead{font-size:14px;color:var(--fg2);margin-bottom:12px;font-weight:600}
-.cminput{display:flex;gap:6px;margin-bottom:16px}
-.cminput input{flex:1;background:var(--card);border:1px solid var(--bd);color:var(--fg);border-radius:6px;padding:8px 12px;font-size:14px;outline:none;font-family:inherit}
-.cminput input:focus{border-color:var(--ac)}
-.cminput button{background:var(--ac);color:#fff;border:none;border-radius:6px;padding:8px 16px;font-size:14px;cursor:pointer}
-.cmlist{display:flex;flex-direction:column;gap:8px}
-.cmi{background:var(--card);border-radius:8px;padding:10px 12px}
-.cmi .cmh{font-size:11px;color:var(--fg3);margin-bottom:4px}
-.cmi .cmb{font-size:13px;line-height:1.6;word-break:break-word}
-.cmi .cmd{background:none;border:none;color:var(--fg3);cursor:pointer;font-size:11px;float:right}
-
-@media(min-width:768px){
-body{font-size:17px}
-.app{max-width:95vw}
-.cover{padding:36px 32px 0;gap:20px}
-.cbox{width:120px;height:160px}
-.ninfo h1{font-size:28px}
-.stats{padding:24px}
-.stat .sv{font-size:21px}
-.intro{padding:20px 32px}
-.cl-hdr{padding:14px 32px}
-.cli{padding:16px 32px}
-.rpage{padding:48px;font-size:20px;line-height:1.9;max-width:900px}
-.rpage h1{font-size:28px;margin:40px 0 28px;padding-bottom:16px}
-.rpage h2{font-size:24px;margin:36px 0 16px}
-.rpage h3{font-size:20px;margin:28px 0 12px}
-.rpage p{margin:14px 0}
-.rnav{padding:24px;max-width:900px}
-.rnav button{padding:14px;font-size:16px}
-}
-@media(min-width:1200px){
-.app{max-width:95vw}
-.rpage{max-width:95vw;font-size:21px;padding:56px 6vw}
-.rpage h1{font-size:30px;margin:48px 0 32px;padding-bottom:20px}
-.rpage h2{font-size:26px;margin:40px 0 18px}
-.rpage h3{font-size:22px;margin:32px 0 14px}
-.rnav{max-width:88vw}
-}
 </style>
 </head>
 <body>
@@ -161,7 +100,7 @@ function renderNovel(){
   '<div class="stats"><div class="stat"><div class="sv">'+chapters.length+'</div><div class="sl">章节</div></div>'+
   '<div class="stat"><div class="sv">'+wc+'万字</div><div class="sl">总字数</div></div>'+
   '<div class="stat"><div class="sv">连载中</div><div class="sl">状态</div></div></div>'+
-  '<div class="intro"><h3>简介</h3><p>木子韦在鬼市花八十块买了一面缠枝莲纹的古老铜镜。第二天开始耳鸣，医生说没问题。第三天镜子里的倒影慢了半拍。第五天，右耳彻底聋了。第七天，一个黑色影子从镜子里渗出来，钻进了他的胸口——从此他有了两个心跳。</p><p>同一时间，市局"档案管理处特殊科"（内部称第九收容站）的老狼在调查一系列与铜镜有关的失踪和死亡案件。租客陈明在密闭的出租屋里三秒内凭空蒸发，只留下一本日记和一段十七秒的视频——视频里，一只黑色的手从镜子里伸出来，在空中画了一组同心圆，圆心点了一只眼睛。</p><p>陈明的日记最后一页，笔迹忽然变得工整得像印刷体：</p><blockquote>"他。已经不在了。现在是。我。"</blockquote><p>老狼自己也开始被标记——左手小臂上出现了一道铜绿色的纹路。</p></div>'+
+  '<div class="intro"><h3>简介</h3><p>木子韦的世界在那场突如其来的病毒侵袭后彻底改变了。听力的消失让他失去了声音的世界，却意外地唤醒了他体内潜藏的某种力量……</p></div>'+
   '<div class="cl-hdr"><h3>目录</h3></div>'+cl;
 }
 
@@ -170,38 +109,11 @@ function renderReader(){
   if(!ch){view='novel';return renderNovel();}
   var prev=curCh>0?curCh-1:-1;
   var next=curCh<chapters.length-1?curCh+1:-1;
-  var lang=localStorage.getItem('glang')||'simp';
   return '<div class="hdr"><span class="bk" onclick="back()">‹</span><h1>诡镜</h1><span class="act" onclick="toggleTheme()">🌙</span></div>'+
-  '<div class="rtools">'+
-  '<span>字号</span>'+
-  '<button onclick="fontChg(-1)">A-</button>'+
-  '<button onclick="fontChg(1)">A+</button>'+
-  '<span class="sep"></span>'+
-  '<span>语言</span>'+
-  '<button onclick="langToggle()">'+(lang==='simp'?'繁體':'简体')+'</button>'+
-  '<span class="sep"></span>'+
-  '<button onclick="ttsToggle()" id="ttsBtn">🎙️ 说书</button>'+
-  '</div>'+
-  '<div class="ttsbar" id="ttsBar">'+
-  '<span style="color:var(--fg2)">说书模式</span>'+
-  '<button onclick="ttsPlay()" id="ttsPlayBtn">▶ 播放</button>'+
-  '<button onclick="ttsPause()">⏸ 暂停</button>'+
-  '<button onclick="ttsStop()">⏹ 停止</button>'+
-  '<span class="sep"></span>'+
-  '<span>语速</span>'+
-  '<button onclick="ttsRateChg(-0.1)">-</button>'+
-  '<span id="ttsRateDisp">0.8x</span>'+
-  '<button onclick="ttsRateChg(0.1)">+</button>'+
-  '</div>'+
   '<div class="rpage" id="readerBody"></div>'+
   '<div class="rnav">'+
   '<button '+(prev>=0?'':'disabled')+' onclick="nav(-1)">← 上一章</button>'+
-  '<button '+(next>=0?'':'disabled')+' onclick="nav(1)">下一章 →</button></div>'+
-  '<div class="aplayer" id="audioPlayer" style="display:none">'+
-  '<div class="alabel">🎙️ 说书 <span id="audioLabel"></span></div>'+
-  '<audio id="audioEl" controls preload="none"><source id="audioSrc" src="" type="audio/mpeg">浏览器不支持音频。</audio>'+
-  '</div>'+
-  '<div class="cmsec" id="cmSec"></div>';
+  '<button '+(next>=0?'':'disabled')+' onclick="nav(1)">下一章 →</button></div>';
 }
 
 function openCh(i){
@@ -234,31 +146,13 @@ function toggleTheme(){
 function loadCh(i){
   var ch=chapters[i];
   var body=document.getElementById('readerBody');
-  if(ch&&body)body.innerHTML=md(convLang(ch.content));
+  if(ch&&body)body.innerHTML=md(ch.content);
 }
 
-var curFs=parseInt(localStorage.getItem('gfs')||'17');
-var s2t={"么":"麼","里":"裡","面":"麵","发":"髮","复":"復","斗":"鬥","松":"鬆","脏":"髒","郁":"鬱","钟":"鐘","冲":"衝","台":"臺","湾":"灣","国":"國","电":"電","脑":"腦","语":"語","说":"說","会":"會","学":"學","时":"時","为":"為","于":"於","还":"還","们":"們","后":"後","没":"沒","现":"現","开":"開","过":"過","动":"動","两":"兩","应":"應","与":"與","点":"點","对":"對","关":"關","将":"將","长":"長","问":"問","题":"題","总":"總","经":"經","产":"產","进":"進","种":"種","体":"體","气":"氣","门":"門","间":"間","东":"東","车":"車","无":"無","从":"從","见":"見","只":"隻","双":"雙","响":"響","准":"準","云":"雲","叶":"葉","华":"華","虫":"蟲","术":"術","卫":"衛","制":"製","干":"乾","获":"獲","借":"藉","链":"鍊","周":"週","胡":"鬍","谷":"穀","伙":"夥","别":"彆","板":"闆","余":"餘","仆":"僕","佣":"傭","系":"係","俩":"倆","仓":"倉","伦":"倫","备":"備","伟":"偉","传":"傳","伤":"傷","侧":"側","亿":"億","仪":"儀","价":"價","护":"護","兴":"興","观":"觀","觉":"覺","触":"觸","设":"設","证":"證","评":"評","词":"詞","诗":"詩","该":"該","谈":"談","请":"請","论":"論","识":"識","变":"變","读":"讀","让":"讓","丰":"豐","贝":"貝","财":"財","货":"貨","质":"質","军":"軍","输":"輸","辆":"輛","较":"較","农":"農","迁":"遷","逻":"邏","边":"邊","达":"達","迈":"邁","运":"運","遥":"遙","迟":"遲","连":"連","选":"選","辽":"遼","适":"適","违":"違","游":"遊","远":"遠","办":"辦","号":"號","况":"況","确":"確","研":"研","究":"究","报":"報","告":"告","惊":"驚","险":"險","艺":"藝","药":"藥","苏":"蘇","览":"覽"};
-var t2s={};for(var _k in s2t)t2s[s2t[_k]]=_k;
-
-function fontChg(d){curFs=Math.max(14,Math.min(32,curFs+d));localStorage.setItem('gfs',''+curFs);applyFs();}
-
-function applyFs(){var el=document.getElementById('readerBody');if(!el)return;el.style.fontSize=curFs+'px';var h1s=el.querySelectorAll('h1');for(var i=0;i<h1s.length;i++)h1s[i].style.fontSize=(curFs+8)+'px';var h2s=el.querySelectorAll('h2');for(var i=0;i<h2s.length;i++)h2s[i].style.fontSize=(curFs+5)+'px';var h3s=el.querySelectorAll('h3');for(var i=0;i<h3s.length;i++)h3s[i].style.fontSize=(curFs+2)+'px';}
-
-function langToggle(){var l=localStorage.getItem('glang')||'simp';l=l==='simp'?'trad':'simp';localStorage.setItem('glang',l);loadCh(curCh);render();}
-
-var ttsOn=false;
-var chapterAudio = ["01_第一章.mp3","02_第二章.mp3","03_第三章.mp3","04_第四章.mp3","05_第五章.mp3","06_第六章.mp3","07_第七章.mp3","08_第八章.mp3","09_第九章.mp3","10_第十章.mp3"];function loadAudio(ch){var pl=document.getElementById("audioPlayer");var src=document.getElementById("audioSrc");var lbl=document.getElementById("audioLabel");if(!pl||!src)return;if(ch>=0&&ch<chapterAudio.length){var ap=chapterAudio[ch];var basePath=window.location.protocol+"//"+window.location.host+window.location.pathname.substring(0,window.location.pathname.lastIndexOf("/")+1)+"audio/";src.setAttribute("src",basePath+ap);pl.style.display="block";if(lbl)lbl.textContent=("第"+(ch+1)+"章");}else{pl.style.display="none";}};
-function getTtsText(){var el=document.getElementById('readerBody');if(!el)return'';return(el.innerText||el.textContent||'');}
-function ttsToggle(){ttsOn=!ttsOn;var bar=document.getElementById('ttsBar');var btn=document.getElementById('ttsBtn');if(ttsOn){bar.classList.add('show');btn.classList.add('on');}else{bar.classList.remove('show');btn.classList.remove('on');ttsStop();}}
-function ttsPlay(){if(!ttsOn)return;ttsStop();var voices=speechSynthesis.getVoices();if(voices.length===0){speechSynthesis.addEventListener('voiceschanged',function h(){speechSynthesis.removeEventListener('voiceschanged',h);doTtsPlay(speechSynthesis.getVoices());},{once:true});speechSynthesis.getVoices();return;}doTtsPlay(voices);}function doTtsPlay(voices){var lang=localStorage.getItem('glang')||'simp';var target=lang==='simp'?'zh-CN':'zh-TW';var ch=voices.find(function(v){return v.lang.replace('_','-')===target;})||voices.find(function(v){return v.lang.indexOf('zh')===0;});if(!ch){alert('找不到中文语音');return;}var u=new SpeechSynthesisUtterance(getTtsText());u.voice=ch;u.rate=ttsCurRate;u.pitch=0.7;u.lang=target;u.onend=function(){var b=document.getElementById('ttsPlayBtn');if(b)b.textContent='▶ 播放';};speechSynthesis.speak(u);var b=document.getElementById('ttsPlayBtn');if(b)b.textContent='⏸ 播放中...';}
-function ttsPause(){speechSynthesis.paused?speechSynthesis.resume():speechSynthesis.pause();}
-function ttsStop(){speechSynthesis.cancel();var b=document.getElementById('ttsPlayBtn');if(b)b.textContent='▶ 播放';}
-var ttsCurRate=parseFloat(localStorage.getItem('gtRate')||'0.8');
-function ttsRateChg(d){ttsCurRate=Math.max(0.1,Math.min(2.0,+(ttsCurRate+d).toFixed(1)));var el=document.getElementById('ttsRateDisp');if(el)el.textContent=ttsCurRate.toFixed(1)+'x';localStorage.setItem('gtRate',''+ttsCurRate);}
-function applyTtsRate(){var el=document.getElementById('ttsRateDisp');if(el)el.textContent=ttsCurRate.toFixed(1)+'x';}
-
-function render(){document.getElementById('app').innerHTML=view==='novel'?renderNovel():renderReader();if(view==='reader'){setTimeout(function(){loadCh(curCh);applyFs();renderComments(curCh);applyTtsRate();loadAudio(curCh);},0);}}
+function render(){
+  document.getElementById('app').innerHTML=view==='novel'?renderNovel():renderReader();
+  if(view==='reader')loadCh(curCh);
+}
 
 (function(){
   var t=localStorage.getItem('gt')||'';

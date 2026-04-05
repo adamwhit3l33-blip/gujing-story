@@ -60,8 +60,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto
 .ttsbar button:hover{background:var(--ac);color:#fff}
 .ttsbar select{background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:12px}
 
+.rtools button.on{background:var(--ac);color:#fff}
+.ttsbar{display:none;align-items:center;gap:8px;padding:8px calc((100vw - min(95vw,1100px))/2);background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:97px;z-index:8;font-size:12px;color:var(--fg2)}
+.ttsbar.show{display:flex}
+.ttsbar button{background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 10px;cursor:pointer;font-size:13px}
+.ttsbar button:hover{background:var(--ac);color:#fff}
+.ttsbar select{background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:12px}
+
 .rtools button:hover{background:var(--ac);color:#fff}
 .rtools .sep{width:1px;height:16px;background:var(--bd)}
+
+.aplayer{padding:12px calc((100vw - min(95vw,1100px))/2);background:var(--card);border-bottom:1px solid var(--bd);margin-bottom:16px;border-radius:0 0 8px 8px}
+.aplayer audio{width:100%;height:40px;border-radius:20px;outline:none}
+.aplayer .alabel{font-size:12px;color:var(--fg2);margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .cmsec{padding:16px calc((100vw - min(95vw,1100px))/2);border-top:1px solid var(--bd);background:var(--bg)}
 .cmhead{font-size:14px;color:var(--fg2);margin-bottom:12px;font-weight:600}
 .cminput{display:flex;gap:6px;margin-bottom:16px}
@@ -186,6 +197,10 @@ function renderReader(){
   '<div class="rnav">'+
   '<button '+(prev>=0?'':'disabled')+' onclick="nav(-1)">← 上一章</button>'+
   '<button '+(next>=0?'':'disabled')+' onclick="nav(1)">下一章 →</button></div>'+
+  '<div class="aplayer" id="audioPlayer" style="display:none">'+
+  '<div class="alabel">🎙️ 说书 <span id="audioLabel"></span></div>'+
+  '<audio id="audioEl" controls preload="none"><source id="audioSrc" src="" type="audio/mpeg">浏览器不支持音频。</audio>'+
+  '</div>'+
   '<div class="cmsec" id="cmSec"></div>';
 }
 
@@ -232,7 +247,17 @@ function applyFs(){var el=document.getElementById('readerBody');if(!el)return;el
 
 function langToggle(){var l=localStorage.getItem('glang')||'simp';l=l==='simp'?'trad':'simp';localStorage.setItem('glang',l);loadCh(curCh);render();}
 
-var ttsOn=false;
+var chapterAudio = ["01_第一章.mp3","02_第二章.mp3","03_第三章.mp3","04_第四章.mp3","05_第五章.mp3","06_第六章.mp3","07_第七章.mp3","08_第八章.mp3","09_第九章.mp3","10_第十章.mp3"];function loadAudio(ch){var pl=document.getElementById("audioPlayer");var src=document.getElementById("audioSrc");var lbl=document.getElementById("audioLabel");if(!pl||!src)return;if(ch>=0&&ch<chapterAudio.length){var ap=chapterAudio[ch];var basePath=window.location.protocol+"//"+window.location.host+window.location.pathname.substring(0,window.location.pathname.lastIndexOf("/")+1)+"audio/";src.setAttribute("src",basePath+ap);pl.style.display="block";if(lbl)lbl.textContent=("第"+(ch+1)+"章");}else{pl.style.display="none";}};
+function getTtsText(){var el=document.getElementById('readerBody');if(!el)return'';return(el.innerText||el.textContent||'');}
+function ttsToggle(){ttsOn=!ttsOn;var bar=document.getElementById('ttsBar');var btn=document.getElementById('ttsBtn');if(ttsOn){bar.classList.add('show');btn.classList.add('on');}else{bar.classList.remove('show');btn.classList.remove('on');ttsStop();}}
+function ttsPlay(){if(!ttsOn)return;ttsStop();speechSynthesis.cancel();var voices=speechSynthesis.getVoices();var lang=localStorage.getItem('glang')||'simp';var target=lang==='simp'?'zh-CN':'zh-TW';var ch=voices.find(function(v){return v.lang.replace('_','-')===target;})||voices.find(function(v){return v.lang.indexOf('zh')===0;});if(!ch){alert('找不到中文语音');return;}var u=new SpeechSynthesisUtterance(getTtsText());u.voice=ch;u.rate=ttsCurRate;u.pitch=0.7;u.lang=target;u.onend=function(){var b=document.getElementById('ttsPlayBtn');if(b)b.textContent='▶ 播放';};speechSynthesis.speak(u);var b=document.getElementById('ttsPlayBtn');if(b)b.textContent='⏸ 播放中...';}
+function ttsPause(){speechSynthesis.paused?speechSynthesis.resume():speechSynthesis.pause();}
+function ttsStop(){speechSynthesis.cancel();var b=document.getElementById('ttsPlayBtn');if(b)b.textContent='▶ 播放';}
+var ttsCurRate=parseFloat(localStorage.getItem('gtRate')||'0.8');
+function ttsRateChg(d){ttsCurRate=Math.max(0.1,Math.min(2.0,+(ttsCurRate+d).toFixed(1)));var el=document.getElementById('ttsRateDisp');if(el)el.textContent=ttsCurRate.toFixed(1)+'x';localStorage.setItem('gtRate',''+ttsCurRate);}
+function applyTtsRate(){var el=document.getElementById('ttsRateDisp');if(el)el.textContent=ttsCurRate.toFixed(1)+'x';}
+
+var chapterAudio = ["01_第一章.mp3","02_第二章.mp3","03_第三章.mp3","04_第四章.mp3","05_第五章.mp3","06_第六章.mp3","07_第七章.mp3","08_第八章.mp3","09_第九章.mp3","10_第十章.mp3"];function loadAudio(ch){var pl=document.getElementById("audioPlayer");var src=document.getElementById("audioSrc");var lbl=document.getElementById("audioLabel");if(!pl||!src)return;if(ch>=0&&ch<chapterAudio.length){var ap=chapterAudio[ch];var basePath=window.location.protocol+"//"+window.location.host+window.location.pathname.substring(0,window.location.pathname.lastIndexOf("/")+1)+"audio/";src.setAttribute("src",basePath+ap);pl.style.display="block";if(lbl)lbl.textContent=("第"+(ch+1)+"章");}else{pl.style.display="none";}};
 function getTtsText(){var el=document.getElementById('readerBody');if(!el)return'';return(el.innerText||el.textContent||'');}
 function ttsToggle(){ttsOn=!ttsOn;var bar=document.getElementById('ttsBar');var btn=document.getElementById('ttsBtn');if(ttsOn){bar.classList.add('show');btn.classList.add('on');}else{bar.classList.remove('show');btn.classList.remove('on');ttsStop();}}
 function ttsPlay(){if(!ttsOn)return;ttsStop();speechSynthesis.cancel();var voices=speechSynthesis.getVoices();var lang=localStorage.getItem('glang')||'simp';var target=lang==='simp'?'zh-CN':'zh-TW';var ch=voices.find(function(v){return v.lang.replace('_','-')===target;})||voices.find(function(v){return v.lang.indexOf('zh')===0;});if(!ch){alert('找不到中文语音');return;}var u=new SpeechSynthesisUtterance(getTtsText());u.voice=ch;u.rate=ttsCurRate;u.pitch=0.7;u.lang=target;u.onend=function(){var b=document.getElementById('ttsPlayBtn');if(b)b.textContent='▶ 播放';};speechSynthesis.speak(u);var b=document.getElementById('ttsPlayBtn');if(b)b.textContent='⏸ 播放中...';}
@@ -251,7 +276,7 @@ function saveCm(ch,d){try{var j=JSON.parse(localStorage.getItem('gc')||'{}');j[c
 function cmAdd(ch){var i=document.getElementById('cmInp');if(!i||!i.value.trim())return;var d=getCm(ch);d.unshift({n:'匿名'+String(Math.floor(Math.random()*9000+1000)),x:i.value.trim(),t:new Date().toLocaleString('zh-CN')});saveCm(ch,d);loadCh(curCh);renderComments(ch);}
 function cmDel(ch,idx){var d=getCm(ch);d.splice(idx,1);saveCm(ch,d);renderComments(ch);}
 
-function render(){document.getElementById('app').innerHTML=view==='novel'?renderNovel():renderReader();if(view==='reader'){setTimeout(function(){loadCh(curCh);applyFs();renderComments(curCh);applyTtsRate();},0);}}
+function render(){document.getElementById('app').innerHTML=view==='novel'?renderNovel():renderReader();if(view==='reader'){setTimeout(function(){loadCh(curCh);applyFs();renderComments(curCh);applyTtsRate();loadAudio(curCh);},0);}}
 
 (function(){
   var t=localStorage.getItem('gt')||'';

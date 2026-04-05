@@ -1,66 +1,91 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>诡镜系列</title>
 <style>
-:root{--bg:#1a1a1e;--bg2:#252528;--card:#2a2a2e;--fg:#e8e8e8;--fg2:#999;--fg3:#666;--ac:#3b82f6;--bd:#333}
+:root{--bg:#1a1a1e;--bg2:#252528;--card:#2a2a2e;--fg:#e8e8e8;--fg2:#999;--fg3:#666;--ac:#3b82f6;--ac2:#60a5fa;--bd:#333;--sw:280px}
+[data-theme=light]{--bg:#f5f5f0;--bg2:#fff;--card:#eeecec;--fg:#2c2c2c;--fg2:#666;--fg3:#999;--bd:#e0e0d8;--ac:#2563eb;--ac2:#3b82f6}
 *{margin:0;padding:0;box-sizing:border-box}
 html{background:var(--bg)}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC",sans-serif;color:var(--fg);background:var(--bg);line-height:1.6;font-size:15px}
-.app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg)}
-@media(min-width:481px){.app{border-left:1px solid var(--bd);border-right:1px solid var(--bd);box-shadow:0 0 40px rgba(0,0,0,.3)}}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC",sans-serif;color:var(--fg);background:var(--bg);line-height:1.6;font-size:15px;min-height:100vh}
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);transition:max-width .3s}
+@media(min-width:481px){.app{max-width:768px;border-left:1px solid var(--bd);border-right:1px solid var(--bd)}}
+@media(min-width:1024px){body{display:flex;justify-content:center}.app{max-width:960px}}
 
 /* Header */
-.hdr{display:flex;align-items:center;padding:12px 16px;position:sticky;top:0;background:var(--bg);z-index:10;border-bottom:1px solid var(--bd)}
+.hdr{display:flex;align-items:center;padding:12px 16px;position:sticky;top:0;background:var(--bg);z-index:10;border-bottom:1px solid var(--bd);backdrop-filter:blur(10px)}
 .hdr .bk{background:none;border:none;color:var(--fg2);font-size:24px;cursor:pointer;padding:4px 8px 4px 0}
-.hdr h1{flex:1;font-size:17px;font-weight:600;text-align:center}
-.hdr .btn{width:32px;text-align:center;color:var(--fg2);font-size:20px;cursor:pointer}
+.hdr h1{flex:1;font-size:16px;font-weight:600;text-align:center}
+.hdr .btn{width:32px;text-align:center;color:var(--fg2);font-size:18px;cursor:pointer}
 
 /* Novel cover */
 .cover-wrap{padding:20px 16px 0;display:flex;gap:14px}
-.cover-box{width:100px;height:133px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+@media(min-width:768px){.cover-wrap{padding:32px 24px 0;gap:20px}}
+@media(min-width:1024px){.cover-wrap{padding:40px 32px 0;gap:24px}}
+.cover-box{width:100px;height:133px;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.4)}
 .cover-box::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(233,69,96,.2),transparent 60%)}
 .cover-text{font-size:28px;font-weight:900;color:#e94560;text-shadow:0 0 20px rgba(233,69,96,.6);z-index:1;letter-spacing:4px}
 .cover-badge{position:absolute;top:6px;right:6px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:700;letter-spacing:1px}
 .novel-info{flex:1;display:flex;flex-direction:column;justify-content:center}
-.novel-info h1{font-size:22px;font-weight:800;margin-bottom:6px;letter-spacing:.5px}
+.novel-info h1{font-size:22px;font-weight:800;margin-bottom:6px}
 .novel-info .author{font-size:13px;color:var(--ac);margin-bottom:8px}
-.novel-info .author b{font-weight:normal}
 .tag-row{display:flex;gap:4px;flex-wrap:wrap}
 .tag{font-size:10px;color:var(--fg3);background:var(--card);padding:2px 8px;border-radius:10px}
 
 /* Stats */
 .stat-bar{display:flex;justify-content:space-around;padding:16px;margin:16px 16px 0;border-bottom:1px solid var(--bd)}
+@media(min-width:768px){.stat-bar{margin:16px 24px 0;padding:20px}}
+@media(min-width:1024px){.stat-bar{margin:24px 32px 0;padding:20px 32px}}
 .stat-bar .s{text-align:center;flex:1}
 .stat-bar .sv{font-size:17px;font-weight:700;color:var(--fg)}
 .stat-bar .sl{font-size:11px;color:var(--fg3);margin-top:2px}
 
 /* Intro */
 .intro{padding:14px 16px;border-bottom:1px solid var(--bd)}
+@media(min-width:768px){.intro{padding:18px 24px}}
+@media(min-width:1024px){.intro{padding:18px 32px}}
 .intro h3{font-size:13px;color:var(--fg2);margin-bottom:4px;font-weight:600;letter-spacing:1px}
-.intro p{font-size:14px;color:var(--fg2);line-height:1.75}
-.intro .more{color:var(--ac);font-size:12px;cursor:pointer;display:inline-block;padding:4px 0}
+.intro p{font-size:14px;color:var(--fg2);line-height:1.7;margin-bottom:4px}
+.more{color:var(--ac);font-size:12px;cursor:pointer;display:inline-block;padding:4px 0}
 
 /* Chapter list */
 .cl-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--bd)}
+@media(min-width:768px){.cl-header{padding:12px 24px}}
+@media(min-width:1024px){.cl-header{padding:16px 32px}}
 .cl-header h3{font-size:14px;font-weight:600}
-.cl-header .sort-btn{font-size:12px;color:var(--fg3);cursor:pointer}
-.cli{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--bd);cursor:pointer;transition:background .12s}
-.cli:hover,.cli:active{background:var(--card)}
+.sort-btn{font-size:12px;color:var(--fg3);cursor:pointer}
+.cli{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--bd);cursor:pointer;transition:background .12s}
+@media(min-width:768px){.cli{padding:14px 24px}}
+@media(min-width:1024px){.cli{padding:14px 32px}}
+.cli:hover{background:var(--card)}
 .cli .cln{color:var(--fg3);font-size:13px;min-width:28px}
-.cli .clt{flex:1;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cli .clt{flex:1;font-size:14px;line-height:1.4}
 .cli .clm{font-size:11px;color:var(--fg3);margin-left:8px;white-space:nowrap}
 
 /* Comments */
-.cmt{padding:16px;border-top:1px solid var(--bd);margin-top:8px}
+.cmt{padding:16px;border-top:1px solid var(--bd)}
+@media(min-width:768px){.cmt{padding:20px 24px}}
+@media(min-width:1024px){.cmt{padding:24px 32px}}
 .cmt h3{font-size:14px;color:var(--fg2);margin-bottom:12px;font-weight:600}
+.cmt-box{width:100%;background:var(--card);border:1px solid var(--bd);color:var(--fg);border-radius:8px;padding:10px;font-size:14px;resize:vertical;min-height:60px;margin-bottom:8px;font-family:inherit;line-height:1.5}
+.cmt-btn{background:var(--ac);color:#fff;border:none;padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer}
+.cmt-item{padding:10px 0;border-bottom:1px solid var(--bd)}
+.cmt-item:last-child{border-bottom:none}
+.cmt-user{font-size:13px;font-weight:600;color:var(--fg2);margin-bottom:4px}
+.cmt-text{font-size:14px;line-height:1.6}
 
 /* Reader */
 .reader-page{padding:16px;font-size:17px;line-height:2}
-.reader-page h1{font-size:20px;font-weight:700;text-align:center;margin:28px 0 20px;padding-bottom:12px;border-bottom:1px solid var(--bd);color:var(--fg)}
-.reader-page h2{font-size:17px;margin:28px 0 12px;font-weight:600}
-.reader-page h3{font-size:15px;margin:20px 0 8px;font-weight:600}
+@media(min-width:768px){.reader-page{padding:24px;font-size:18px}}
+@media(min-width:1024px){.reader-page{padding:32px;font-size:19px;max-width:680px;margin:0 auto}}
+.reader-page h1{font-size:20px;font-weight:700;text-align:center;margin:28px 0 20px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+@media(min-width:768px){.reader-page h1{font-size:22px}}
+@media(min-width:1024px){.reader-page h1{font-size:24px}}
+.reader-page h2{font-size:17px;margin:28px 0 12px}
+@media(min-width:768px){.reader-page h2{font-size:19px}}
+.reader-page h3{font-size:15px;margin:20px 0 8px}
+@media(min-width:768px){.reader-page h3{font-size:16px}}
 .reader-page p{margin:10px 0;text-indent:2em;text-align:justify}
 .reader-page blockquote{border-left:3px solid var(--ac);padding:6px 12px;margin:12px 0;color:var(--fg2);font-style:italic}
 .reader-page hr{border:none;border-top:1px solid var(--bd);margin:20px 0}
@@ -69,19 +94,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto
 .reader-page th{background:var(--card)}
 
 .r-nav{display:flex;justify-content:space-between;padding:16px;border-top:1px solid var(--bd);gap:8px}
+@media(min-width:768px){.r-nav{padding:24px;max-width:680px;margin:0 auto}}
+@media(min-width:1024px){.r-nav{padding:24px 32px}}
 .r-nav button{flex:1;background:var(--ac);color:#fff;border:none;padding:12px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s}
 .r-nav button:hover{opacity:.85}
 .r-nav button:disabled{background:var(--card);color:var(--fg3);cursor:default}
 
-/* Theme */
-.theme-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--ac);color:#fff;border-radius:50%;border:none;font-size:20px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);z-index:50;display:flex;align-items:center;justify-content:center}
-[data-theme=light]{--bg:#f5f5f0;--bg2:#fff;--card:#eeecec;--fg:#2c2c2c;--fg2:#666;--fg3:#999;--bd:#e0e0d8}
+/* Theme toggle */
+.theme-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--ac);color:#fff;border-radius:50%;border:none;font-size:20px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);z-index:50;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.theme-btn:hover{opacity:.85}
 [data-theme=light] .cover-box{background:linear-gradient(135deg,#667eea,#764ba2)}
 [data-theme=light] .cover-text{color:#764ba2;text-shadow:0 0 15px rgba(118,75,162,.3)}
 
-@media(max-width:360px){.reader-page{font-size:16px}.cover-wrap{padding:16px 12px 0}.cover-box{width:84px;height:112px}.cover-text{font-size:24px}.novel-info h1{font-size:19px}}
-</style>
-</head>
+@media(max-width:360px){.reader-page{font-size:16px}.cover-wrap{padding:16px 12px 0}.cover-box{width:84px;height:112px}.cover-text{font-size:24px}.novel-info h1{font-size:19px}.stat-bar .sv{font-size:15px}}
+</style></head>
 <body>
 <div class="app" id="app"></div>
 <button class="theme-btn" id="thmBtn" onclick="toggleTheme()">🌙</button>
@@ -92,6 +118,7 @@ var curCh=parseInt(localStorage.getItem('gcc')||'0');
 var sortDesc=localStorage.getItem('gso')!=='0';
 var introFull=localStorage.getItem('gif')==='1';
 var fontSize=parseInt(localStorage.getItem('gfs')||'17');
+var comments=JSON.parse(localStorage.getItem('gmcomments')||'{}');
 
 function render(){
   document.getElementById('app').innerHTML=view==='novel'?renderNovel():renderReader();
@@ -105,9 +132,9 @@ function renderNovel(){
   for(var i=0;i<sorted.length;i++){
     var ch=sorted[i];
     var mins=Math.round(ch.content.length/400);
-    cl+='<div class="cli" onclick="openCh('+ch.i+')"><span class="cln">'+(ch.i+1)+'.</span><span class="clt">'+ch.title.substring(0,20)+'</span><span class="clm">'+mins+'分钟</span></div>';
+    cl+='<div class="cli" onclick="openCh('+ch.i+')"><span class="cln">'+(ch.i+1)+'.</span><span class="clt">'+ch.title.substring(0,24)+'</span><span class="clm">'+mins+'分钟</span></div>';
   }
-  var intro=introFull?'木子韦从鬼市淘回一面老铜镜。摊主说民国老物，八十块钱。铜镜很沉，他抱在怀里走了一公里才打到车。挂在客厅墙上，正对着沙发。那天晚上他睡得很沉。\\n\\n第二天早上醒来，右耳开始耳鸣。不是偶尔的嗡嗡声。是持续不断的、高频率的尖啸，像一根细针从耳道深处扎进脑子。\\n\\n听力丧失后，镜子里的人开始慢他半拍。后来镜子里的人先动了。再后来，镜子里的人笑了——他没笑。\\n\\n他的身体里多了一个心跳。一强一弱。一快一慢。\\n\\n他在变成镜中人，而真正的他正在被替换。':'木子韦从鬼市淘回一面老铜镜，从此听力丧失、镜中异变。随着异化加深，身体里多了一个心跳，镜子里走出了另一个自己。随着异化加深，他发现自己正在变成镜中人……';
+  var intro=introFull?'木子韦从鬼市淘回一面老铜镜。摊主说民国老物，八十块钱。铜镜很沉，他抱在怀里走了一公里才打到车。挂在客厅墙上，正对着沙发。那天晚上他睡得很沉。第二天早上醒来，右耳开始耳鸣。不是偶尔的嗡嗡声。是持续不断的、高频率的尖啸，像一根细针从耳道深处扎进脑子。听力丧失后，镜子里的人开始慢他半拍。后来镜子里的人先动了。再后来，镜子里的人了。——他发现自己正在变成镜中人。老狼和佳丽发现了这个秘密，但真相远比想象更可怕——夺舍玄鉴正在人间散布，被照到的人都在变成镜中人。':'木子韦从鬼市淘回一面老铜镜，从此听力丧失、镜中异变。随着异化加深，身体里多了一个心跳，镜中走出了另一个自己……';
   return '<div class="hdr"><span class="bk" onclick="back()">‹</span><h1>诡镜系列</h1><span class="btn">⋮</span></div>'+
   '<div class="cover-wrap"><div class="cover-box"><span class="cover-text">诡镜</span><span class="cover-badge">悬疑</span></div>'+
   '<div class="novel-info"><h1>诡镜</h1><div class="author"><b>May</b> · 著</div>'+
@@ -118,40 +145,60 @@ function renderNovel(){
   '<div class="s"><div class="sv">No.28</div><div class="sl">新书榜</div></div></div>'+
   '<div class="intro"><h3>简介</h3><p>'+intro+'</p>'+(introFull?'':'<span class="more" onclick="toggleIntro()">展开全文 ▼</span>')+'</div>'+
   '<div class="cl-header"><h3>目录</h3><span class="sort-btn" onclick="toggleSort()">'+(sortDesc?'↑ 最新在前':'↓ 正序')+'</span></div>'+
-  '<div id="chlist">'+cl+'</div>'+
-  '<div class="cmt"><h3>💬 读者评论</h3><div id="gc"></div></div>';
-}
+  '<div>'+cl+'</div>'+
+  '<div class="cmt"><h3>💬 读者评论</h3>'+renderComments('novel')+'</div>';
+}}
 
-function renderReader(){
+function renderReader(){{
   var ch=chapters[curCh];
-  if(!ch){view='novel';return renderNovel();}
+  if(!ch){{view='novel';return renderNovel();}}
   var prev=curCh>0?curCh-1:-1;
   var next=curCh<chapters.length-1?curCh+1:-1;
-  return '<div class="hdr"><span class="bk" onclick="back()">‹</span><h1>'+ch.title+'</h1><span class="btn" onclick="toggleFontSize()">A</span></div>'+
+  return '<div class="hdr"><span class="bk" onclick="back()">‹</span><h1>诡镜</h1><span class="btn" onclick="toggleFontSize()" title="Font">A</span></div>'+
   '<div class="reader-page" id="readerBody"></div>'+
-  '<div class="cmt"><h3>💬 读者评论</h3><div id="gc"></div></div>'+
-  '<div class="r-nav"><button '+ (prev>=0?'':'disabled')+' onclick="nav(-1)">← 上一章</button>'+
-  '<button '+ (next>=0?'':'disabled')+' onclick="nav(1)">下一章 →</button></div>';
-}
+  '<div class="cmt"><h3>💬 评论：'+ch.title+'</h3>'+renderComments('ch'+ch.i)+'</div>'+
+  '<div class="r-nav"><button '+(prev>=0?'':'disabled')+' onclick="nav(-1)">← 上一章</button>'+
+  '<button '+(next>=0?'':'disabled')+' onclick="nav(1)">下一章 →</button></div>';
+}}
 
-function openCh(i){curCh=i;localStorage.setItem('gcc',i);view='reader';render();window.scrollTo(0,0);loadMd(i);loadGiscus()}
-function nav(d){var n=curCh+d;if(n>=0&&n<chapters.length){curCh=n;localStorage.setItem('gcc',n);render();window.scrollTo(0,0);loadMd(n);loadGiscus()}}
-function back(){view='novel';render()}
-function toggleSort(){sortDesc=!sortDesc;localStorage.setItem('gso',sortDesc?'1':'0');render()}
-function toggleIntro(){introFull=!introFull;localStorage.setItem('gif',introFull?'1':'0');render()}
-function toggleFontSize(){var sizes=[15,16,17,18,19,20];var idx=sizes.indexOf(fontSize);fontSize=sizes[(idx+1)%sizes.length];localStorage.setItem('gfs',fontSize);render()}
+function renderComments(key){{
+  var list=comments[key]||[];
+  var h='<div>'+(list.length?list.map(function(c){{return '<div class="cmt-item"><div class="cmt-user">'+c.user+'</div><div class="cmt-text">'+c.text+'</div></div>'}}).join(''):'<p style="color:var(--fg3);font-size:13px;font-style:italic">暂无评论，做第一个评论的人吧 💬</p>')+'</div>';
+  h+='<form class="cmt-form" onsubmit="addComment(event,\''+key+'\')">' +
+    '<input class="cmt-user-input" placeholder="昵称" style="width:100%;background:var(--card);border:1px solid var(--bd);color:var(--fg);border-radius:8px;padding:8px 12px;font-size:14px;margin-bottom:6px">' +
+    '<textarea class="cmt-box" placeholder="写下你的读书笔记..." rows="2"></textarea>' +
+    '<div style="text-align:right"><button class="cmt-btn" type="submit">发表评论</button></div></form>';
+  return h;
+}}
 
-function loadMd(i){
+function addComment(e,key){{
+  e.preventDefault();
+  var form=e.target;
+  var user=form.querySelector('input').value.trim()||'匿名读者';
+  var text=form.querySelector('textarea').value.trim();
+  if(!text)return;
+  if(!comments[key])comments[key]=[];
+  comments[key].push({{user:user,text:text,date:new Date().toISOString()}});
+  localStorage.setItem('gmcomments',JSON.stringify(comments));
+  render();
+}}
+
+function openCh(i){{curCh=i;localStorage.setItem('gcc',i);view='reader';render();setTimeout(function(){{loadMd(i)}},50)}}
+function nav(d){{var n=curCh+d;if(n>=0&&n<chapters.length){{curCh=n;localStorage.setItem('gcc',n);render();setTimeout(function(){{loadMd(n)}},50)}}}}
+function back(){{view='novel';render()}}
+function toggleSort(){{sortDesc=!sortDesc;localStorage.setItem('gso',sortDesc?'1':'0');render()}}
+function toggleIntro(){{introFull=!introFull;localStorage.setItem('gif',introFull?'1':'0');render()}}
+function toggleFontSize(){{var s=[15,16,17,18,19,20],i=s.indexOf(fontSize);fontSize=s[(i+1)%s.length];localStorage.setItem('gfs',fontSize);render()}}
+
+function loadMd(i){{
   var ch=chapters[i];
   var el=document.getElementById('readerBody');
   if(!el)return;
-  var h='<h1>'+ch.title+'</h1>';
-  h+=md(ch.content);
-  el.innerHTML=h;
-  el.style.fontSize=fontSize+'px';
-}
+  document.documentElement.style.setProperty('--fs',fontSize+'px');
+  el.innerHTML='<h1>'+ch.title+'</h1>'+md(ch.content);
+}}
 
-function md(s){
+function md(s){{
   var h=s;
   h=h.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   h=h.replace(/^### (.+)$/gm,'<h3>$1</h3>');
@@ -161,51 +208,32 @@ function md(s){
   h=h.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
   h=h.replace(/\*(.+?)\*/g,'<em>$1</em>');
   h=h.replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>');
-  h=h.replace(/^[-*]{3,}$/gm,'<hr>');
-  h=h.split(/\n\n+/).map(function(p){
+  h=h.replace(/^[-*]{{3,}}$/gm,'<hr>');
+  h=h.split(/
+
++/).map(function(p){{
     p=p.trim();if(!p)return'';
     if(/^<(h[1-6]|hr|blockquote|table|ul|ol|li|tr|th|td)/i.test(p))return p;
-    return'<p>'+p.replace(/\n/g,'<br>')+'</p>';
-  }).join('\n');
+    return'<p>'+p.replace(/
+/g,'<br>')+'</p>'}}).join('
+');
   return h.replace(/<p><\/p>/g,'');
-}
+}}
 
-function loadGiscus(){
-  var box=document.getElementById('gc');
-  if(!box)return;
-  box.innerHTML='';
-  var s=document.createElement('script');
-  s.src='https://giscus.app/client.js';
-  s.setAttribute('data-repo','adamwhit3l33-blip/gujing-story');
-  s.setAttribute('data-repo-id','R_kgDOR6LAlQ');
-  s.setAttribute('data-category','Announcements');
-  s.setAttribute('data-category-id','DIC_kwDOR6LAlc4C6FvB');
-  s.setAttribute('data-mapping','title');
-  s.setAttribute('data-strict','0');
-  s.setAttribute('data-reactions-enabled','1');
-  s.setAttribute('data-emit-metadata','0');
-  s.setAttribute('data-input-position','bottom');
-  s.setAttribute('data-theme','dark');
-  s.setAttribute('data-lang','zh-CN');
-  s.setAttribute('crossorigin','anonymous');
-  s.async=true;
-  box.appendChild(s);
-}
+function toggleTheme(){{
+  var t=document.documentElement.getAttribute('data-theme')||'';
+  var n=t?'':'light';
+  document.documentElement.setAttribute('data-theme',n);
+  localStorage.setItem('gt',n);
+  document.getElementById('thmBtn').textContent=n?'☀️':'🌙';
+}}
 
-function toggleTheme(){
-  var cur=document.documentElement.getAttribute('data-theme')||'';
-  var next=cur?'':'light';
-  document.documentElement.setAttribute('data-theme',next);
-  localStorage.setItem('gt',next);
-  document.getElementById('thmBtn').textContent=next?'☀️':'';
-}
-
-(function(){
+(function(){{
   var t=localStorage.getItem('gt')||'';
   document.documentElement.setAttribute('data-theme',t);
   if(t==='light')document.getElementById('thmBtn').textContent='☀️';
   render();
-})();
+}})();
 </script>
 </body>
 </html>

@@ -163,7 +163,7 @@ function renderReader(){
   h+='<span class="tb-label" id="rateLabel">'+ttsRateVal.toFixed(1)+'x</span>';
   h+='<button class="tb-btn" onclick="ttsRate(0.1)">+</button>';
   h+='</div></div>';
-  h+='<div class="audio-sec"><span class="audio-label">Ch '+(curCh+1)+'</span><audio id="audioPlayer" controls preload="none"><source src="audio/'+String(curCh+1).padStart(2,'0')+'_ch'+(curCh+1)+'.mp3" type="audio/mpeg">您的浏览器不支持音频播放</audio></div>';
+  h+='<div class="audio-sec" id="audioSec"><span class="audio-label">Ch '+(curCh+1)+'</span><audio id="audioPlayer" controls preload="none"><source src="" type="audio/mpeg">您的浏览器不支持音频播放</audio></div>';
   h+='<div class="rpage" id="readerBody" style="font-size:'+fs+'px"></div>';
   h+='<div class="rnav">';
   h+='<button '+(prev>=0?'':'disabled')+' onclick="nav(-1)">'+String.fromCharCode(8592)+' 上一章</button>';
@@ -199,6 +199,7 @@ function loadCh(i){
     body.innerHTML=md(content);currentText=content;
   }
   loadComments();
+  loadAudio();
 }
 
 function changeFontSize(d){
@@ -235,19 +236,21 @@ function getChineseVoice(){
 }
 
 function ttsPlay(){
-  if(!window.speechSynthesis)return;
+  if(!window.speechSynthesis){alert('\u5f53\u524d\u6d4f\u89c8\u5668\u4e0d\u652f\u6301\u8bed\u97f3\u529f\u80fd\uff0c\u8bf7\u4f7f\u7528\u684c\u9762\u6d4f\u89c8\u5668');console.log('speechSynthesis not supported');return;}
   if(ttsState==='playing')return;
   var body=document.getElementById('readerBody');
   if(body)currentText=body.innerText||body.textContent;
   if(!currentText)return;
-  speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(currentText);
-  var v=getChineseVoice();if(v)u.voice=v;
-  u.rate=ttsRateVal;u.lang=localStorage.getItem('glang')||'zh-CN';
-  ttsState='playing';
-  u.onend=function(){ttsState='stopped';updateTTSBtns();};
-  u.onerror=function(){ttsState='stopped';updateTTSBtns();};
-  speechSynthesis.speak(u);updateTTSBtns();
+  try{
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(currentText);
+    var v=getChineseVoice();if(v)u.voice=v;
+    u.rate=ttsRateVal;u.lang=localStorage.getItem('glang')||'zh-CN';
+    ttsState='playing';
+    u.onend=function(){ttsState='stopped';updateTTSBtns();};
+    u.onerror=function(e){console.log('TTS error:',e);ttsState='stopped';updateTTSBtns();alert('\u8bed\u97f3\u64ad\u653e\u5931\u8d25\uff1a\u5f53\u524d\u6d4f\u89c8\u5668\u4e0d\u652f\u6301\u8bed\u97f3\u529f\u80fd\uff0c\u8bf7\u4f7f\u7528\u684c\u9762\u6d4f\u89c8\u5668');};
+    speechSynthesis.speak(u);updateTTSBtns();
+  }catch(e){console.log('TTS exception:',e);alert('\u8bed\u97f3\u64ad\u653e\u5931\u8d25\uff1a\u5f53\u524d\u6d4f\u89c8\u5668\u4e0d\u652f\u6301\u8bed\u97f3\u529f\u80fd\uff0c\u8bf7\u4f7f\u7528\u684c\u9762\u6d4f\u89c8\u5668');}
 }
 
 function ttsPause(){
@@ -306,7 +309,22 @@ function delComment(idx){
 
 function render(){
   document.getElementById('app').innerHTML=view==='novel'?renderNovel():renderReader();
-  if(view==='reader'){loadCh(curCh);initVoices();updateTTSBtns();}
+  if(view==='reader'){loadCh(curCh);initVoices();updateTTSBtns();if(typeof loadAudio==="function")loadAudio();}
+}
+
+function loadAudio(){
+  var audioSec=document.getElementById('audioSec');
+  if(!audioSec)return;
+  var src='audio/'+String(curCh+1).padStart(2,'0')+'_ch'+(curCh+1)+'.mp3';
+  fetch(src,{method:'HEAD'}).then(function(r){
+    if(r.ok){
+      audioSec.style.display='block';
+      var ap=document.getElementById('audioPlayer');
+      if(ap)ap.querySelector('source').src=src;
+    }else{
+      audioSec.style.display='none';
+    }
+  }).catch(function(){audioSec.style.display='none';});
 }
 
 (function(){

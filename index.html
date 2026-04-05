@@ -147,11 +147,11 @@ function renderNovel(){
   '<div class="cl-header"><h3>目录</h3><span class="sort-btn" onclick="toggleSort()">'+(sortDesc?'↑ 最新在前':'↓ 正序')+'</span></div>'+
   '<div>'+cl+'</div>'+
   '<div class="cmt"><h3>💬 读者评论</h3>'+renderComments('novel')+'</div>';
-}}
+}
 
-function renderReader(){{
+function renderReader(){
   var ch=chapters[curCh];
-  if(!ch){{view='novel';return renderNovel();}}
+  if(!ch){view='novel';return renderNovel();}
   var prev=curCh>0?curCh-1:-1;
   var next=curCh<chapters.length-1?curCh+1:-1;
   return '<div class="hdr"><span class="bk" onclick="back()">‹</span><h1>诡镜</h1><span class="btn" onclick="toggleFontSize()" title="Font">A</span></div>'+
@@ -159,46 +159,46 @@ function renderReader(){{
   '<div class="cmt"><h3>💬 评论：'+ch.title+'</h3>'+renderComments('ch'+ch.i)+'</div>'+
   '<div class="r-nav"><button '+(prev>=0?'':'disabled')+' onclick="nav(-1)">← 上一章</button>'+
   '<button '+(next>=0?'':'disabled')+' onclick="nav(1)">下一章 →</button></div>';
-}}
+}
 
-function renderComments(key){{
+function renderComments(key){
   var list=comments[key]||[];
-  var h='<div>'+(list.length?list.map(function(c){{return '<div class="cmt-item"><div class="cmt-user">'+c.user+'</div><div class="cmt-text">'+c.text+'</div></div>'}}).join(''):'<p style="color:var(--fg3);font-size:13px;font-style:italic">暂无评论，做第一个评论的人吧 💬</p>')+'</div>';
+  var h='<div>'+(list.length?list.map(function(c){return '<div class="cmt-item"><div class="cmt-user">'+c.user+'</div><div class="cmt-text">'+c.text+'</div></div>'}).join(''):'<p style="color:var(--fg3);font-size:13px;font-style:italic">暂无评论，做第一个评论的人吧 💬</p>')+'</div>';
   h+='<form class="cmt-form" onsubmit="addComment(event,\''+key+'\')">' +
     '<input class="cmt-user-input" placeholder="昵称" style="width:100%;background:var(--card);border:1px solid var(--bd);color:var(--fg);border-radius:8px;padding:8px 12px;font-size:14px;margin-bottom:6px">' +
     '<textarea class="cmt-box" placeholder="写下你的读书笔记..." rows="2"></textarea>' +
     '<div style="text-align:right"><button class="cmt-btn" type="submit">发表评论</button></div></form>';
   return h;
-}}
+}
 
-function addComment(e,key){{
+function addComment(e,key){
   e.preventDefault();
   var form=e.target;
   var user=form.querySelector('input').value.trim()||'匿名读者';
   var text=form.querySelector('textarea').value.trim();
   if(!text)return;
   if(!comments[key])comments[key]=[];
-  comments[key].push({{user:user,text:text,date:new Date().toISOString()}});
+  comments[key].push({user:user,text:text,date:new Date().toISOString()});
   localStorage.setItem('gmcomments',JSON.stringify(comments));
   render();
-}}
+}
 
-function openCh(i){{curCh=i;localStorage.setItem('gcc',i);view='reader';render();setTimeout(function(){{loadMd(i)}},50)}}
-function nav(d){{var n=curCh+d;if(n>=0&&n<chapters.length){{curCh=n;localStorage.setItem('gcc',n);render();setTimeout(function(){{loadMd(n)}},50)}}}}
-function back(){{view='novel';render()}}
-function toggleSort(){{sortDesc=!sortDesc;localStorage.setItem('gso',sortDesc?'1':'0');render()}}
-function toggleIntro(){{introFull=!introFull;localStorage.setItem('gif',introFull?'1':'0');render()}}
-function toggleFontSize(){{var s=[15,16,17,18,19,20],i=s.indexOf(fontSize);fontSize=s[(i+1)%s.length];localStorage.setItem('gfs',fontSize);render()}}
+function openCh(i){curCh=i;localStorage.setItem('gcc',i);view='reader';render();setTimeout(function(){loadMd(i)},50)}
+function nav(d){var n=curCh+d;if(n>=0&&n<chapters.length){curCh=n;localStorage.setItem('gcc',n);render();setTimeout(function(){loadMd(n)},50)}}
+function back(){view='novel';render()}
+function toggleSort(){sortDesc=!sortDesc;localStorage.setItem('gso',sortDesc?'1':'0');render()}
+function toggleIntro(){introFull=!introFull;localStorage.setItem('gif',introFull?'1':'0');render()}
+function toggleFontSize(){var s=[15,16,17,18,19,20],i=s.indexOf(fontSize);fontSize=s[(i+1)%s.length];localStorage.setItem('gfs',fontSize);render()}
 
-function loadMd(i){{
+function loadMd(i){
   var ch=chapters[i];
   var el=document.getElementById('readerBody');
   if(!el)return;
   document.documentElement.style.setProperty('--fs',fontSize+'px');
   el.innerHTML='<h1>'+ch.title+'</h1>'+md(ch.content);
-}}
+}
 
-function md(s){{
+function md(s){
   var h=s;
   h=h.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   h=h.replace(/^### (.+)$/gm,'<h3>$1</h3>');
@@ -208,32 +208,32 @@ function md(s){{
   h=h.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
   h=h.replace(/\*(.+?)\*/g,'<em>$1</em>');
   h=h.replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>');
-  h=h.replace(/^[-*]{{3,}}$/gm,'<hr>');
+  h=h.replace(/^[-*]{3,}$/gm,'<hr>');
   h=h.split(/
 
-+/).map(function(p){{
++/).map(function(p){
     p=p.trim();if(!p)return'';
     if(/^<(h[1-6]|hr|blockquote|table|ul|ol|li|tr|th|td)/i.test(p))return p;
     return'<p>'+p.replace(/
-/g,'<br>')+'</p>'}}).join('
+/g,'<br>')+'</p>'}).join('
 ');
   return h.replace(/<p><\/p>/g,'');
-}}
+}
 
-function toggleTheme(){{
+function toggleTheme(){
   var t=document.documentElement.getAttribute('data-theme')||'';
   var n=t?'':'light';
   document.documentElement.setAttribute('data-theme',n);
   localStorage.setItem('gt',n);
   document.getElementById('thmBtn').textContent=n?'☀️':'🌙';
-}}
+}
 
-(function(){{
+(function(){
   var t=localStorage.getItem('gt')||'';
   document.documentElement.setAttribute('data-theme',t);
   if(t==='light')document.getElementById('thmBtn').textContent='☀️';
   render();
-}})();
+})();
 </script>
 </body>
 </html>

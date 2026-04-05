@@ -51,6 +51,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto
 .rnav button{flex:1;background:var(--ac);color:#fff;border:none;padding:12px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer}
 .rnav button:disabled{background:var(--card);color:var(--fg3);cursor:default}
 .more{color:var(--ac);font-size:12px;cursor:pointer}
+.rtools{display:flex;align-items:center;gap:6px;padding:8px calc((100vw - min(95vw,1100px))/2);background:var(--card);border-bottom:1px solid var(--bd);font-size:12px;color:var(--fg2);flex-wrap:wrap}
+.rtools button{background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 8px;cursor:pointer;font-size:12px}
+.rtools button:hover{background:var(--ac);color:#fff}
+.rtools .sep{width:1px;height:16px;background:var(--bd)}
+.cmsec{padding:16px calc((100vw - min(95vw,1100px))/2);border-top:1px solid var(--bd);background:var(--bg)}
+.cmhead{font-size:14px;color:var(--fg2);margin-bottom:12px;font-weight:600}
+.cminput{display:flex;gap:6px;margin-bottom:16px}
+.cminput input{flex:1;background:var(--card);border:1px solid var(--bd);color:var(--fg);border-radius:6px;padding:8px 12px;font-size:14px;outline:none;font-family:inherit}
+.cminput input:focus{border-color:var(--ac)}
+.cminput button{background:var(--ac);color:#fff;border:none;border-radius:6px;padding:8px 16px;font-size:14px;cursor:pointer}
+.cmlist{display:flex;flex-direction:column;gap:8px}
+.cmi{background:var(--card);border-radius:8px;padding:10px 12px}
+.cmi .cmh{font-size:11px;color:var(--fg3);margin-bottom:4px}
+.cmi .cmb{font-size:13px;line-height:1.6;word-break:break-word}
+.cmi .cmd{background:none;border:none;color:var(--fg3);cursor:pointer;font-size:11px;float:right}
+
 @media(min-width:768px){
 body{font-size:17px}
 .app{max-width:95vw}
@@ -136,11 +152,21 @@ function renderReader(){
   if(!ch){view='novel';return renderNovel();}
   var prev=curCh>0?curCh-1:-1;
   var next=curCh<chapters.length-1?curCh+1:-1;
+  var lang=localStorage.getItem('glang')||'simp';
   return '<div class="hdr"><span class="bk" onclick="back()">‹</span><h1>诡镜</h1><span class="act" onclick="toggleTheme()">🌙</span></div>'+
+  '<div class="rtools">'+
+  '<span>字号</span>'+
+  '<button onclick="fontChg(-1)">A-</button>'+
+  '<button onclick="fontChg(1)">A+</button>'+
+  '<span class="sep"></span>'+
+  '<span>语言</span>'+
+  '<button onclick="langToggle()">'+(lang==='simp'?'繁體':'简体')+'</button>'+
+  '</div>'+
   '<div class="rpage" id="readerBody"></div>'+
   '<div class="rnav">'+
   '<button '+(prev>=0?'':'disabled')+' onclick="nav(-1)">← 上一章</button>'+
-  '<button '+(next>=0?'':'disabled')+' onclick="nav(1)">下一章 →</button></div>';
+  '<button '+(next>=0?'':'disabled')+' onclick="nav(1)">下一章 →</button></div>'+
+  '<div class="cmsec" id="cmSec"></div>';
 }
 
 function openCh(i){
@@ -173,13 +199,29 @@ function toggleTheme(){
 function loadCh(i){
   var ch=chapters[i];
   var body=document.getElementById('readerBody');
-  if(ch&&body)body.innerHTML=md(ch.content);
+  if(ch&&body)body.innerHTML=md(convLang(ch.content));
 }
 
-function render(){
-  document.getElementById('app').innerHTML=view==='novel'?renderNovel():renderReader();
-  if(view==='reader')loadCh(curCh);
-}
+var curFs=parseInt(localStorage.getItem('gfs')||'17');
+var s2t={"么":"麼","里":"裡","面":"麵","发":"髮","复":"復","斗":"鬥","松":"鬆","脏":"髒","郁":"鬱","钟":"鐘","冲":"衝","台":"臺","湾":"灣","国":"國","电":"電","脑":"腦","语":"語","说":"說","会":"會","学":"學","时":"時","为":"為","于":"於","还":"還","们":"們","后":"後","没":"沒","现":"現","开":"開","过":"過","动":"動","两":"兩","应":"應","与":"與","点":"點","对":"對","关":"關","将":"將","长":"長","问":"問","题":"題","总":"總","经":"經","产":"產","进":"進","种":"種","体":"體","气":"氣","门":"門","间":"間","东":"東","车":"車","无":"無","从":"從","见":"見","只":"隻","双":"雙","响":"響","准":"準","云":"雲","叶":"葉","华":"華","虫":"蟲","术":"術","卫":"衛","制":"製","干":"乾","获":"獲","借":"藉","链":"鍊","周":"週","胡":"鬍","谷":"穀","伙":"夥","别":"彆","板":"闆","余":"餘","仆":"僕","佣":"傭","系":"係","俩":"倆","仓":"倉","伦":"倫","备":"備","伟":"偉","传":"傳","伤":"傷","侧":"側","亿":"億","仪":"儀","价":"價","护":"護","兴":"興","观":"觀","觉":"覺","触":"觸","设":"設","证":"證","评":"評","词":"詞","诗":"詩","该":"該","谈":"談","请":"請","论":"論","识":"識","变":"變","读":"讀","让":"讓","丰":"豐","贝":"貝","财":"財","货":"貨","质":"質","军":"軍","输":"輸","辆":"輛","较":"較","农":"農","迁":"遷","逻":"邏","边":"邊","达":"達","迈":"邁","运":"運","遥":"遙","迟":"遲","连":"連","选":"選","辽":"遼","适":"適","违":"違","游":"遊","远":"遠","办":"辦","号":"號","况":"況","确":"確","研":"研","究":"究","报":"報","告":"告","惊":"驚","险":"險","艺":"藝","药":"藥","苏":"蘇","览":"覽"};
+var t2s={};for(var _k in s2t)t2s[s2t[_k]]=_k;
+
+function fontChg(d){curFs=Math.max(14,Math.min(32,curFs+d));localStorage.setItem('gfs',''+curFs);applyFs();}
+
+function applyFs(){var el=document.getElementById('readerBody');if(!el)return;el.style.fontSize=curFs+'px';var h1s=el.querySelectorAll('h1');for(var i=0;i<h1s.length;i++)h1s[i].style.fontSize=(curFs+8)+'px';var h2s=el.querySelectorAll('h2');for(var i=0;i<h2s.length;i++)h2s[i].style.fontSize=(curFs+5)+'px';var h3s=el.querySelectorAll('h3');for(var i=0;i<h3s.length;i++)h3s[i].style.fontSize=(curFs+2)+'px';}
+
+function langToggle(){var l=localStorage.getItem('glang')||'simp';l=l==='simp'?'trad':'simp';localStorage.setItem('glang',l);loadCh(curCh);render();}
+
+function convLang(s){var l=localStorage.getItem('glang')||'simp';if(l==='trad')return s.split('').map(function(c){return s2t[c]||c}).join('');return s;}
+
+function renderComments(ch){var sec=document.getElementById('cmSec');if(!sec)return;var cm=getCm(ch);var h='<div class="cmhead">评论 ('+cm.length+')</div><div class="cminput"><input id="cmInp" placeholder="写评论..." onkeydown="if(event.key==="Enter")cmAdd('+ch+')"><button onclick="cmAdd('+ch+')">发送</button></div><div class="cmlist">';for(var i=0;i<cm.length;i++){h+='<div class="cmi"><button class="cmd" onclick="cmDel('+ch+','+i+')">删</button><div class="cmh">'+esc(cm[i].n)+' <span style="color:var(--fg3)">· '+esc(cm[i].t)+'</span></div><div class="cmb">'+esc(cm[i].x)+'</div></div>';}h+='</div>';sec.innerHTML=h;}
+
+function getCm(ch){try{return JSON.parse(localStorage.getItem('gc')||'{}')[ch]||[];}catch(e){return[];}}
+function saveCm(ch,d){try{var j=JSON.parse(localStorage.getItem('gc')||'{}');j[ch]=d;localStorage.setItem('gc',JSON.stringify(j));}catch(e){}}
+function cmAdd(ch){var i=document.getElementById('cmInp');if(!i||!i.value.trim())return;var d=getCm(ch);d.unshift({n:'匿名'+String(Math.floor(Math.random()*9000+1000)),x:i.value.trim(),t:new Date().toLocaleString('zh-CN')});saveCm(ch,d);loadCh(curCh);renderComments(ch);}
+function cmDel(ch,idx){var d=getCm(ch);d.splice(idx,1);saveCm(ch,d);renderComments(ch);}
+
+function render(){document.getElementById('app').innerHTML=view==='novel'?renderNovel():renderReader();if(view==='reader'){setTimeout(function(){loadCh(curCh);applyFs();renderComments(curCh);},0);}}
 
 (function(){
   var t=localStorage.getItem('gt')||'';
